@@ -105,6 +105,7 @@
             var cityPops = [308428, 27453, 253128]; 
             
             var cityAreas = [lexArea, frankArea, louArea];
+            console.log(cityAreas);
                     
              mapCities (cities, cityCoords, cityPops, cityAreas); 
             
@@ -112,9 +113,10 @@
             
         function mapCities(cities, cityCoords, cityPops, cityAreas) {
             
-            var units = 'km';
+            var units = 'miles';
             
             for(var i = 0; i < cities.length; i++) {
+                
                 var density =  calcPopDensity (cityPops[i], cityAreas[i], units);
                     
                 var popup = "<b>"+cities[i]+"</b><br>"
@@ -126,6 +128,8 @@
         }
         
          function calcPopDensity(cityPops, cityAreas, units) { 
+             console.log(cityPops)
+             
             var density = cityPops/cityAreas;            
             
             if(units == "km") {
