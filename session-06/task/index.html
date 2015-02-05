@@ -91,7 +91,9 @@
         
         function prepareData(lexArea, frankArea, louArea) { 
             
-            var cities = ["Lexington"]; ["Frankfort"]; ["Louisville"]
+            var cities = ["Lexington", "Frankfort", "Louisville"];
+            console.log(cities);
+            
             var cityCoords = [
                 [38.0297, -84.4947],
                 [38.1970, -84.8630],
@@ -102,16 +104,16 @@
             
             var cityAreas = [lexArea, frankArea, louArea];
                     
-             mapCities(cities, cityCoords, cityPops, cityAreas); 
+             mapCities (cities, cityCoords, cityPops, cityAreas); 
             
         }
             
         function mapCities(cities, cityCoords, cityPops, cityAreas) {
             
-            var units = 'miles';
+            var units = 'km';
             
             for(var i = 0; i < cities.length; i++) {
-                var density =  calcPopDensity(cityPops[i], cityAreas[i], units);
+                var density =  calcPopDensity (cityPops[i], cityAreas[i], units);
                     
                 var popup = "<b>"+cities[i]+"</b><br>"
                                 +"<b>Density</b>: "+Math.round(density).toLocaleString()+" people per sq. " + units;
@@ -124,7 +126,7 @@
          function calcPopDensity(cityPops, cityAreas, units) { 
             var density = cityPops/cityAreas;            
             
-            if(units == "miles") {
+            if(units == "km") {
                 return density; 
             } else {
                 density * 1.60934;
