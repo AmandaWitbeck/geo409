@@ -81,17 +81,15 @@
             maxZoom: 18
         });
         map.addLayer(tiles);
-        
-        // begin writing/editing Task E code here
+    
         
         var lexArea = 285.5;
-        // create a second variable for a second city's area here
-        // create a third variable for a third city's area here
+        var frankArea = 14.6;
+        var louArea = 399;
         
-        prepareData(lexArea); // modify function call to pass 2 additional
-                              // arguments
+        prepareData(lexArea, frankArea, louArea); 
         
-        function prepareData(lexArea, frankArea, louArea) { /* include 2 more parameters here */
+        function prepareData(lexArea, frankArea, louArea) { 
             
             var cities = ["Lexington"]; ["Frankfort"]; ["Louisville"]
             var cityCoords = [
@@ -102,10 +100,9 @@
             ];
             var cityPops = [308428, 27453, 756832]; 
             
-            var cityAreas = [lexArea]; /* include 2nd and 3rd city areas */
+            var cityAreas = [lexArea, frankArea, louArea];
                     
-            mapCities(cities, cityCoords); // modify function call to pass 2 additional
-                                           // arguments
+            mapCities(cities, cityCoords, cityPops, cityAreas); 
             
         }
             
