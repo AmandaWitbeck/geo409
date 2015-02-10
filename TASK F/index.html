@@ -62,8 +62,8 @@
 
 <body>
     <header>
-        <h1>Map Title</h1>
-        <h2>Map Subtitle</h2>
+        <h1>TASK F</h1>
+        <h2>GEO 409</h2>
     </header>
 
     <div id='map'></div>
@@ -88,32 +88,70 @@
             minZoom: 4,
             maxZoom: 12
         });
+        
         map.addLayer(tiles);
         
-        // Begin writing/modifying code for Task F here
         
+       // TASK F 
         var cities = [
              {
                  name: "Louisville",
-                 properties: {
+                 properties:     {
                      coordinates: [38.25, -85.7667],
                      population: 756832,
-                     state: "KY"
-                             }
-             }  console.log (louisville)
+                     state: "KY" }
+             },  
             
             {
                 name: "Nashville",
-                properties: {
+                properties:     {
                     coordinates: [36.1667, -86.7833],
-                    population: 609644
-                    state: "TN"
-                            }
-                
+                    population: 609644,
+                    state: "TN" }
+            },
+             
+            {
+                name: "Cincinatti",
+                properties:     {
+                    coordinates: [39.1000, -84.5167],
+                    population: 297517,
+                    state: "OH"
+                                }
+            }
        
         ];
+        
+         for(var i = 0; i < cities.length; i++){
+            //console.log(cities[i]);
+            //console.log(cities[i].properties.population);
+            
+            var props = cities[i].properties;
+                //console.log(props);
+                //console.log(props.state);
+            
+            var name = cities[i].name;
+            
+            var popup = buildPopup(name, props.population, props.state);
+            
+            L.marker(props.coordinates).addTo(map)
+                .bindPopup(popup);
+            
+                                                }
        
         
+
+          function buildPop(name, pop, state) {
+            if(state == "KY") {
+                var colorClass = "red";
+            } else if(state == "TN") {
+                var colorClass = "blue";
+            } else if(state == "OH") {
+                var colorClass = "yellow"
+            }
+            return "<div class='"+colorClass+"'><b>"+name+"</b><br>"+
+    "<b>Population</b>: "+pop.toLocaleString()+"<div>";
+        }
+            
         
             
         // End code for Task F
