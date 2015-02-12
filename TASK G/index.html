@@ -52,8 +52,8 @@
 
 <body>
     <header>
-        <h1>Food Poisoning</h1>
-        <h2>Locations Across the United States</h2>
+        <h1>Red Iguana...</h1>
+        <h2></h2>
     </header>
 
     <div id='map'></div>
@@ -68,15 +68,15 @@
     <script>
         var map;
         var targetDiv = 'map';
-         var mapCenter = L.latLng(40,-94);
+        var mapCenter = L.latLng(40,-94);
 
   
-    var map = L.map('map', {
-        center: [40,-94],
-        zoom: 4
+        var map = L.map('map', {
+            center: [40,-94],
+            zoom: 4
     });
         
-          var tiles = L.tileLayer('http://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png', {
+        var tiles = L.tileLayer('http://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png', {
 	          attribution: '&copy; <a href="http://www.opencyclemap.org">OpenCycleMap</a>, &copy; <a              href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
               minZoom:4,
               maxZoom:12
@@ -84,11 +84,18 @@
         map.addLayer(tiles);
 
                 
-    var redIguana = L.latLng(40.7718,-111.9124);
+       var redIguana = L.latLng(40.7718,-111.9124);
         
-    map.on('click', function(e){
-       // console.log(e.latlng);   //
-        var click = L.latLng
+        map.on('click', function(e){
+        
+        var clickEvent = e.latlng;
+        
+        var distance = clickEvent.distanceTo (redIguana);
+            console.log (distance);
+     
+        var swClick
+            
+       
     });
                   
     </script>
