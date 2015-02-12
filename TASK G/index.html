@@ -3,7 +3,7 @@
 
 <head>
     <meta charset=utf-8 />
-    <title>Geo409 Task G Starter</title>
+    <title>Amanda Witbeck</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
@@ -52,30 +52,43 @@
 
 <body>
     <header>
-        <h1>Map Title</h1>
-        <h2>Map Subtitle</h2>
+        <h1>Food Poisoning</h1>
+        <h2>Locations Across the United States</h2>
     </header>
 
     <div id='map'></div>
 
     <footer>
-        <p>Map authored by YOUR NAME</p>
-        <p>Additional information about the data and map goes here.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna magna, maximus nec laoreet sit amet, dictum ultricies nibh. Ut id auctor lacus. Nam a dolor et justo luctus luctus. Duis a elit eget risus dictum vehicula id eu elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed sed enim nisl. Vestibulum commodo imperdiet lacus, sed facilisis erat placerat sit amet. Nulla consequat malesuada neque eget aliquet. Integer non convallis nisl, gravida ultrices ex. Fusce nec vestibulum elit. Sed elementum lectus ipsum, vulputate elementum ex laoreet a. Aenean eu ex varius, varius felis vitae, efficitur nulla. Quisque pretium laoreet ante, in sodales dui vehicula at. Mauris eu sem sapien.
+        <p>Map authored by Amanda Witbeck</p>
+        <p>Created for GEO409/709</p>
+        <p>Blah blah
         </p>
     </footer>
 
     <script>
+        var map;
+        var targetDiv = 'map';
+         var mapCenter = L.latLng(40,-94);
 
+  
     var map = L.map('map', {
         center: [40,-94],
         zoom: 4
     });
+        
+          var tiles = L.tileLayer('http://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png', {
+	          attribution: '&copy; <a href="http://www.opencyclemap.org">OpenCycleMap</a>, &copy; <a              href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+              minZoom:4,
+              maxZoom:12
+});
+        map.addLayer(tiles);
+
                 
     var redIguana = L.latLng(40.7718,-111.9124);
         
     map.on('click', function(e){
-        console.log(e.latlng);   
+       // console.log(e.latlng);   //
+        var click = L.latLng
     });
                   
     </script>
