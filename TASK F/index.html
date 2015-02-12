@@ -132,7 +132,7 @@
                 //console.log(props);
                 //console.log(props.state);
             
-            var popup = buildPop(cities[i].name, props.population, props.state);
+           var popup = buildPop(cities[i].name, props.population, props.state);
             
             L.marker(props.coordinates).addTo(map)
                 .bindPopup(popup);
@@ -140,13 +140,17 @@
        
 
           function buildPop(name, pop, state) {
-            if(state == "KY") {
-                var colorClass = "red";
-            } else if(state == "TN") {
-                var colorClass = "blue";
-            } else if(state == "OH") {
-                var colorClass = "green"
-            }
+            console.log(name, pop, state);
+              
+              if(state == "KY")
+                  { var colorClass = "red"; }    
+            
+              else if(state == "TN")
+                  { var colorClass = "blue"; }
+                
+            else if(state == "OH")
+                  { var colorClass = "green" }
+    
             return "<div class='"+colorClass+"'><b>"+name+"</b><br>"+
     "<b>Population</b>: "+pop.toLocaleString()+"<div>";
         }
