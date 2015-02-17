@@ -58,7 +58,7 @@
 
     <footer>
         
-// steps and 11 and 12 below        
+<!--// steps and 11 and 12 below        -->
         <p>Map authored by Amanda Witbeck</p>
         <p>Additional information about the data and map goes here.</p>
         <p>Data Source
@@ -67,32 +67,15 @@
 
     <script>
         
-//        var img = new Image();
-//        var div = document.getElementById('foo');
-//
-//        img.onload = function() {
-//        div.appendChild(img);
-//        };
-//
-//        img.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHu6-LxcBL02gWAxoCYLi4aAe5wy9nSW7XASpQRg-pf0XHMm2D7g';
-//       console.log(img)
-
- // Step 1 and 2 here//
-//        
-//        var map;
-//        var targetDiv = 'map';
-//        var mapCenter = L.latLng(37.8136, 144.9631);
-
-  
         var map = L.map('map', {
             center: [-37.8136, 144.9631],
             zoom: 4
     });
         
-        var tiles = L.tileLayer('http://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png', {
+        var tiles =            L.tileLayer('http://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png', {
 	          attribution: '&copy; <a href="http://www.opencyclemap.org">OpenCycleMap</a>, &copy; <a              href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
               minZoom:4,
-              maxZoom:12
+              maxZoom:16
 });
         map.addLayer(tiles);
         
@@ -185,23 +168,63 @@
         
         
 //      steps 3 here GLOBAL VARIABLES
-       var redIguanaLocation = L.latLng(-37.8136, 144.9631);
-        var redIguanaCircle = L.circle(redIguanaLocation, 400);
-        redIguanaCircle.addTo(map);
-
-        redIguanaCircle.setStyle({
-            color: "#d72b1e", // sets stroke color to red
-            weight: 15, // sets the stroke width to 15 pixels
-            fillColor: "#d72b1e",  // sets fill color to red
-            fillOpacity: 1  // sets the fill opacity to 1
-
-        });
         
-//      steps 4-6  here
-            
-        var marker;  // keep this code
-       
-        map.on('click', function(e) {  // keep this code
+        var dangerCircle = L.circle([51.508, -0.11], 500, {
+            color: "red",
+            weight: 10,
+            fillColor: '#f03',
+            fillOpacity: 0.5
+            }).addTo(map);
+        
+        var safeCircle = L.circle([51.508, -0.11], 500, {
+            color: "green",
+            weight: 10,
+            fillColor: '#f03',
+            fillOpacity: 0.5
+            }).addTo(map);
+        
+//      LatLong Pop Up from Tutorial    
+        var popup = L.popup();
+
+        function onMapClick(e) {
+            popup
+        .setLatLng(e.latlng)
+        .setContent("You clicked the map at " + e.latlng.toString())
+        .openOn(map);
+}
+
+        map.on('click', onMapClick);
+        
+//        var circleOne = L.circleOne(iguanaZones, 2200);
+//        circleOne.addTo(map);
+//
+//        circleOne.setStyle({
+//            color: "#d72b1e", // sets stroke color to red
+//            weight: 15, // sets the stroke width to 15 pixels
+//            fillColor: "#d72b1e",  // sets fill color to red
+//            fillOpacity: 1  // sets the fill opacity to 1
+//
+//        });
+//        
+//        var circleTwo = L.circleTwo(iguanaZones, 2200);
+//        circleTwo.addTo(map);
+//
+//        circleTwo.setStyle({
+//            color: "#ff7800", // sets stroke color to 
+//            weight: 15, // sets the stroke width to 15 pixels
+//            fillColor: "#ff7800",  // sets fill color to red
+//            fillOpacity: 1  // sets the fill opacity to 1
+//
+//        });
+//        
+////      steps 4-6  here LAYER GROUP
+//        
+//        var iguanaZones = L.layerGroup();
+//        var circleOne = L.
+//            
+//        var marker;  // keep this code
+//       
+//        map.on('click', function(e) {  // keep this code
 
 // uncomment this code after step seven is finished          
 //            if(map.hasLayer(marker)) {               
@@ -210,8 +233,8 @@
 
 //              step seven here            
 //              step eight here
-            
-        });  // keep this code
+//            
+//        });  // keep this code
         
         function testDistance() {
             
