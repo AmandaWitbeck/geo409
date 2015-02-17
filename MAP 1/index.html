@@ -28,8 +28,8 @@
             color: #001323;
         }
         h2 {
-            display: inline-block;
             color: #001323;
+            text-align: left;
         }
         #map {
             width: 80%;
@@ -51,8 +51,14 @@
 <body>
     <header>
         <h1>Don't Runaway from Runaway</h1>
+        <img src="punch.jpg" 
+              alt="Punch" 
+              style="width:284px;height:208px"
+              align= "right";
+              align="top">
         <h2>The Mayor Implores You</h2>
     </header>
+  
 
     <div id='map'></div>
 
@@ -66,7 +72,7 @@
     </footer>
 
     <script>
-        
+      
         var map = L.map('map', {
             center: [-37.8136, 144.9631],
             zoom: 4
