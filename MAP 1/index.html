@@ -50,8 +50,8 @@
 
 <body>
     <header>
-        <h1>Map Title</h1>
-        <h2>Map Subtitle</h2>
+        <h1>Don't Runaway from Runaway</h1>
+        <h2>The Mayor Implores You</h2>
     </header>
 
     <div id='map'></div>
@@ -185,6 +185,17 @@
         
         
 //      steps 3 here GLOBAL VARIABLES
+       var redIguanaLocation = L.latLng(-37.8136, 144.9631);
+        var redIguanaCircle = L.circle(redIguanaLocation, 400);
+        redIguanaCircle.addTo(map);
+
+        redIguanaCircle.setStyle({
+            color: "#d72b1e", // sets stroke color to red
+            weight: 15, // sets the stroke width to 15 pixels
+            fillColor: "#d72b1e",  // sets fill color to red
+            fillOpacity: 1  // sets the fill opacity to 1
+
+        });
         
 //      steps 4-6  here
             

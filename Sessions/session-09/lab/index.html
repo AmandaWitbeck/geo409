@@ -86,48 +86,45 @@
         
        
 
-        var redIguanaLocation = L.latLng(40.7718,-111.9124);
-        var redIguanaMarker = L.marker(redIguanaLocation, {
-            draggable: true,
-            opacity: .4
-        });
-                
-        redIguanaMarker.addTo(map);
-        
-        var myIcon = L.icon ({
- iconUrl:'http://www.fordesigner.com/imguploads/Image/cjbc/zcool/png20080526/1211808819.png',
-        iconSize: [15, 15],
-        iconAnchor: [22, 94],
-        popupAnchor: [-3, -76],
-       });
-        
-        L.marker([38, -84], {icon: myIcon}).addTo(map);
-        
-        var homeLocation = L.latLng (38.0297, -84.4947);
-        var homeMarker = L.marker (homeLocation, {
-            title: "Home" });
-            
-        homeMarker.addTo(map)
-        
-// ------------
-        
 //        var redIguanaLocation = L.latLng(40.7718,-111.9124);
 //        var redIguanaMarker = L.marker(redIguanaLocation, {
 //            draggable: true,
 //            opacity: .4
 //        });
+//                
 //        redIguanaMarker.addTo(map);
+//        
+//       
+//        
+//        L.marker([38, -84], {icon: myIcon}).addTo(map);
+//        
+//        var homeLocation = L.latLng (38.0297, -84.4947);
+//        var homeMarker = L.marker (homeLocation, {
+//            title: "Home" });
+//            
+//        homeMarker.addTo(map)
         
-// ------------
         
-//        var redIguanaLocation = L.latLng(40.7718,-111.9124);
-//        var redIguanaMarker = L.marker(redIguanaLocation, {
-//            draggable: true   
-//        });
-//        redIguanaMarker.addTo(map);
-//        redIguanaMarker.on('drag', function(e) {
-//            console.log(e.target.getLatLng());
-//        });
+        
+ ------------
+        
+        var redIguanaLocation = L.latLng(40.7718,-111.9124);
+        var redIguanaMarker = L.marker(redIguanaLocation, {
+            draggable: true,
+            opacity: .4
+        });
+        redIguanaMarker.addTo(map);
+        
+ ------------
+        
+        var redIguanaLocation = L.latLng(40.7718,-111.9124);
+        var redIguanaMarker = L.marker(redIguanaLocation, {
+            draggable: true   
+        });
+        redIguanaMarker.addTo(map);
+        redIguanaMarker.on('drag', function(e) {
+            console.log(e.target.getLatLng());
+        });
         
 // ------------- POPUP
         
@@ -244,39 +241,39 @@
         
 
 // ----------
-        
-        var iguanaRestaurants = L.layerGroup();
-        var redIguanaOptions = {
-            color: 'red',
-            fillColor: 'red'
-        };
-        var blueIguanaOptions = {
-           color: '#03f',
-           fillColor: '#03f'
-        };
-        var redIguana = L.circle([40.7718,-111.9124], 400, redIguanaOptions);
-        redIguana.color = 'red';
-        redIguana.addTo(iguanaRestaurants);
-        var blueIguana = L.circle([40.7657, -111.8930], 300, blueIguanaOptions);
-        blueIguana.color = 'blue';
-        blueIguana.addTo(iguanaRestaurants);
-        iguanaRestaurants.addTo(map);
-        
-        iguanaRestaurants.eachLayer(function(layer) {
-            layer.on('mouseover', function(e) {
-               e.target.setStyle({
-                   color: 'yellow',
-                   fillColor: 'yellow'
-               });
-            });
-            layer.on('mouseout', function(e) {
-                if(e.target.color == 'red') {
-                    e.target.setStyle(redIguanaOptions);
-                } else if (e.target.color == 'blue') {
-                     e.target.setStyle(blueIguanaOptions);      
-                }
-            });
-        });
+//        
+//        var iguanaRestaurants = L.layerGroup();
+//        var redIguanaOptions = {
+//            color: 'red',
+//            fillColor: 'red'
+//        };
+//        var blueIguanaOptions = {
+//           color: '#03f',
+//           fillColor: '#03f'
+//        };
+//        var redIguana = L.circle([40.7718,-111.9124], 400, redIguanaOptions);
+//        redIguana.color = 'red';
+//        redIguana.addTo(iguanaRestaurants);
+//        var blueIguana = L.circle([40.7657, -111.8930], 300, blueIguanaOptions);
+//        blueIguana.color = 'blue';
+//        blueIguana.addTo(iguanaRestaurants);
+//        iguanaRestaurants.addTo(map);
+//        
+//        iguanaRestaurants.eachLayer(function(layer) {
+//            layer.on('mouseover', function(e) {
+//               e.target.setStyle({
+//                   color: 'yellow',
+//                   fillColor: 'yellow'
+//               });
+//            });
+//            layer.on('mouseout', function(e) {
+//                if(e.target.color == 'red') {
+//                    e.target.setStyle(redIguanaOptions);
+//                } else if (e.target.color == 'blue') {
+//                     e.target.setStyle(blueIguanaOptions);      
+//                }
+//            });
+//        });
   
     </script>
     
