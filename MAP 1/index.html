@@ -15,7 +15,7 @@
         body {
             margin: 0;
             padding: 0;
-            background: limegreen;
+            background: #1ed565;
             font-family: Lato, sans-serif;
             color: #0D0000;
         }
@@ -50,13 +50,13 @@
 
 <body>
     <header>
-        <h1>Don't Runaway from Runaway</h1>
+        <h1>Safe Zones at the Runaway Country Music Fest</h1>
         <img src="punch.jpg" 
               alt="Punch" 
               style="width:284px;height:208px"
               align= "right";
               align="top">
-        <h2>The Mayor Implores You</h2>
+        <h2>Mayor Doyle Battles the Fleet of Mutant Alien Iguanas</h2>
     </header>
   
 
@@ -75,12 +75,19 @@
       
         var map = L.map('map', {
             center: [-37.8136, 144.9631],
-            zoom: 4
+            zoom: 11
     });
         
-        var tiles =            L.tileLayer('http://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png', {
-	          attribution: '&copy; <a href="http://www.opencyclemap.org">OpenCycleMap</a>, &copy; <a              href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-              minZoom:4,
+//        var getBounds = map.getBounds();
+//        //console.log(getBounds);
+//          
+//        var bounds = L.latLngBounds(getBounds);    
+//        
+//        map.setMaxBounds(bounds);
+        
+        var tiles =                 L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+	          attribution:  '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+              minZoom:8,
               maxZoom:16
 });
         map.addLayer(tiles);
@@ -170,36 +177,38 @@
                     size: 1200
                 }
             }
-        ]; // end iguanaShips data
+        ];
+// end iguanaShips data
         
         
 //      steps 3 here GLOBAL VARIABLES
         
-        var dangerCircle = L.circle([51.508, -0.11], 500, {
+        var dangerCircle =  {
             color: "red",
             weight: 10,
             fillColor: '#f03',
             fillOpacity: 0.5
-            }).addTo(map);
+            };
         
-        var safeCircle = L.circle([51.508, -0.11], 500, {
+        var safeCircle =  {
             color: "green",
             weight: 10,
             fillColor: '#f03',
             fillOpacity: 0.5
-            }).addTo(map);
+            };
         
-//      LatLong Pop Up from Tutorial    
-        var popup = L.popup();
+//        var hatIcon = L.icon({
+//            iconUrl:"http://www.clker.com/cliparts/C/G/M/c/C/g/cowboy-boot-hi.png",
+//            iconSize: [50, 50]
+//    });
+//
+//       
+        var hatIcon = L.icon({
+            iconUrl:"hat.png",
+            iconSize: [60, 40]
+    });
 
-        function onMapClick(e) {
-            popup
-        .setLatLng(e.latlng)
-        .setContent("You clicked the map at " + e.latlng.toString())
-        .openOn(map);
-}
-
-        map.on('click', onMapClick);
+       
         
 //        var circleOne = L.circleOne(iguanaZones, 2200);
 //        circleOne.addTo(map);
@@ -224,13 +233,52 @@
 //        });
 //        
 ////      steps 4-6  here LAYER GROUP
-//        
-//        var iguanaZones = L.layerGroup();
-//        var circleOne = L.
-//            
-//        var marker;  // keep this code
-//       
-//        map.on('click', function(e) {  // keep this code
+    
+//        map.on('click', onMapClick);
+   
+        var circleLayer = L.layerGroup();
+        
+             for(var i = 0; i < iguanaZones.length; i++) {
+        
+        var coords = iguanaZones[i].coordinates;
+            //console.log(iguanaZones[i]);
+            
+        var radius = iguanaZones[i].properties.size;
+        
+        L.circle(coords, radius).addTo(circleLayer);
+            //console.log(circleLayer);
+            
+    };
+        
+    circleLayer.addTo(map);  
+            
+        var marker = {
+            safeDistance: true
+        };       
+
+       
+                var marker = {
+            safeDistance: true
+        };       
+        
+        map.on('click', function(e){
+            
+            if(marker.safeDistance == false) {
+                map.removeLayer(marker)
+            };
+            
+            var clickPoint = e.latlng;
+            
+            L.marker(clickPoint);
+                //console.log(clickPoint);
+            
+            marker = L.marker((clickPoint), {icon: hatIcon}).addTo(map);
+            marker.safeDistance = true;
+            
+        testDistance(clickPoint);   
+            
+        }); 
+
 
 // uncomment this code after step seven is finished          
 //            if(map.hasLayer(marker)) {               
@@ -241,14 +289,14 @@
 //              step eight here
 //            
 //        });  // keep this code
-        
-        function testDistance() {
-            
-            iguanaGroup.eachLayer(function(layer) {
-//              step 9 here
-//              step 10 here
-            });
-        }
+//        
+//        function testDistance() {
+//            
+////            iguanaGroup.eachLayer(function(layer) {
+//////              step 9 here
+//////              step 10 here
+////            });
+//        }
         
 // end map1 code
         
