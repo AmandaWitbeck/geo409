@@ -59,7 +59,6 @@
         <h2>Mayor Doyle Battles the Fleet of Mutant Alien Iguanas</h2>
     </header>
   
-
     <div id='map'></div>
 
     <footer>
@@ -176,7 +175,6 @@
         
         
 //      steps 3 here GLOBAL VARIABLES
-    
         
         var dangerCircle =  {
             color: "red",
@@ -198,33 +196,7 @@
             iconSize: [60, 40]
     });
 
-       
-        
-//        var circleOne = L.circleOne(iguanaZones, 2200);
-//        circleOne.addTo(map);
-//
-//        circleOne.setStyle({
-//            color: "#d72b1e", // sets stroke color to red
-//            weight: 15, // sets the stroke width to 15 pixels
-//            fillColor: "#d72b1e",  // sets fill color to red
-//            fillOpacity: 1  // sets the fill opacity to 1
-//
-//        });
-//        
-//        var circleTwo = L.circleTwo(iguanaZones, 2200);
-//        circleTwo.addTo(map);
-//
-//        circleTwo.setStyle({
-//            color: "#ff7800", // sets stroke color to 
-//            weight: 15, // sets the stroke width to 15 pixels
-//            fillColor: "#ff7800",  // sets fill color to red
-//            fillOpacity: 1  // sets the fill opacity to 1
-//
-//        });
-//        
-////      steps 4-6  here LAYER GROUP
-    
-//        map.on('click', onMapClick);
+
    
         var circleLayer = L.layerGroup();
         
@@ -279,10 +251,10 @@
             circleLayer.eachLayer(function(layer) { 
                 
                 var radius = layer.getRadius();
-                    //console.log(radius);
+                    console.log(radius);
                 
                 var center = layer.getLatLng();
-                    //console.log(center);
+                    console.log(center);
                 
                 var clickDistance = center.distanceTo(clickPoint);
                     //console.log(clickDistance);
