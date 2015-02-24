@@ -65,9 +65,9 @@
     <footer>
         
 <!--// steps and 11 and 12 below        -->
+        <p>The iguana invaders have established several landing zones across the city and created circular perimeters around these landing zones of various distances. To find safe distances from these landing zones, click on the map and a hat icon will appear. If this is a dangerous location, the danger zones will turn red. If it is a safe distance, the danger zone will be green.</p>
         <p>Map authored by Amanda Witbeck</p>
-        <p>Additional information about the data and map goes here.</p>
-        <p>Data Source
+        <p>
         </p>
     </footer>
 
@@ -176,6 +176,7 @@
         
         
 //      steps 3 here GLOBAL VARIABLES
+    
         
         var dangerCircle =  {
             color: "red",
@@ -249,6 +250,7 @@
             
             if(marker.safeDistance == false) {
                 map.removeLayer(marker)
+//               L.marker (coords, {draggable: 'true'})
             };
             
             var clickPoint = e.latlng;
@@ -256,16 +258,19 @@
             L.marker(clickPoint);
                 //console.log(clickPoint);
             
-            marker = L.marker((clickPoint), {icon: hatIcon}).addTo(map);
+            marker = L.marker((clickPoint), 
+                     {icon: hatIcon}).addTo(map);
             marker.safeDistance = true;
             
-        testDistance(clickPoint);   
-            
-        }); 
-
+      
+             
+        testDistance(clickPoint);    
+        });
       
             if(map.hasLayer(marker)) {               
                 map.removeLayer(marker);
+                
+           
             }
 
         
@@ -296,6 +301,20 @@
 
             });
                }
+//        
+//        function onMapClick(e) {
+//            marker = L.marker(e.latlng, {draggable:'true'});
+//                marker.on('dragend', function(event){
+//        var marker = event.target;
+//    var position = marker.getLatLng();
+//    marker.setLatLng(new L.LatLng(position.lat, position.lng),{draggable:'true'});
+//    map.panTo(new L.LatLng(position.lat, position.lng))
+//  });
+//  map.addLayer(marker);
+//};
+
+map.on('click', onMapClick);
+            
     
 
 // end map1 code
