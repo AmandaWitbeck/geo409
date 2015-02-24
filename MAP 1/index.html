@@ -78,13 +78,6 @@
             zoom: 11
     });
         
-//        var getBounds = map.getBounds();
-//        //console.log(getBounds);
-//          
-//        var bounds = L.latLngBounds(getBounds);    
-//        
-//        map.setMaxBounds(bounds);
-        
         var tiles =                 L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
 	          attribution:  '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
               minZoom:8,
@@ -254,12 +247,7 @@
             
         var marker = {
             safeDistance: true
-        };       
-
-       
-                var marker = {
-            safeDistance: true
-        };       
+        };        
         
         map.on('click', function(e){
             
@@ -267,7 +255,7 @@
                 map.removeLayer(marker)
             };
             
-            var clickPoint = e.latlng;
+        var clickPoint = e.latlng;
             
             L.marker(clickPoint);
                 //console.log(clickPoint);
@@ -275,15 +263,13 @@
             marker = L.marker((clickPoint), {icon: hatIcon}).addTo(map);
             marker.safeDistance = true;
             
-        testDistance(clickPoint);   
+//        testDistance(clickPoint);   
             
         }); 
-
-
-// uncomment this code after step seven is finished          
-//            if(map.hasLayer(marker)) {               
-//                map.removeLayer(marker);
-//            }
+        
+            if(map.hasLayer(marker)) {               
+                map.removeLayer(marker);
+            }
 
 //              step seven here            
 //              step eight here
@@ -292,7 +278,7 @@
 //        
 //        function testDistance() {
 //            
-////            iguanaGroup.eachLayer(function(layer) {
+////            iguanaLayer.eachLayer(function(layer) {
 //////              step 9 here
 //////              step 10 here
 ////            });
