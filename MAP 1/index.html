@@ -197,7 +197,7 @@
 //
 //       
         var hatIcon = L.icon({
-            iconUrl:"hat.png",
+            iconUrl:"http://pngimg.com/upload/hat_PNG5706.png",
             iconSize: [60, 40]
     });
 
@@ -263,7 +263,7 @@
             marker = L.marker((clickPoint), {icon: hatIcon}).addTo(map);
             marker.safeDistance = true;
             
-//        testDistance(clickPoint);   
+        testDistance(clickPoint);   
             
         }); 
         
@@ -271,19 +271,36 @@
                 map.removeLayer(marker);
             }
 
-//              step seven here            
-//              step eight here
-//            
-//        });  // keep this code
-//        
-//        function testDistance() {
-//            
-////            iguanaLayer.eachLayer(function(layer) {
-//////              step 9 here
-//////              step 10 here
-////            });
-//        }
+
         
+               function testDistance(clickPoint) {  
+            
+            circleLayer.eachLayer(function(layer) { 
+                
+                var radius = layer.getRadius();
+                    //console.log(radius);
+                
+                var center = layer.getLatLng();
+                    //console.log(center);
+                
+                var clickDistance = center.distanceTo(clickPoint);
+                    //console.log(clickDistance);
+                
+                var centerDistance = (clickDistanceDistance - radius);
+                    //console.log(centerDistance);
+                
+                
+                if(centerDistance < 2200) { 
+                    layer.setStyle(dangerCircleCircle);
+                    return marker.safeDistance = false;
+                }                   
+                else if (centerDistance > 2200) {
+                    layer.setStyle(safeCircle);
+                };
+
+            });
+    
+
 // end map1 code
         
     </script>
