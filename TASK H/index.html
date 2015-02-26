@@ -109,7 +109,7 @@
                 "coordinates": [
                   -73.62895488739014,
                   45.463652351325734
-                ]
+                ] 
               }
     },
                 {
@@ -374,7 +374,7 @@
   ]
 }
 
-        var placesLeaflet = L.geoJson(places).addTo(map);
+        var placesLeaflet = L.geoJson(places).addTo(map).bindPopup("name", "description") ;
         
 //        modify the previous statement to include Leaflet GeoJson options pointToLayer and onEachFeature to:
 //
