@@ -78,7 +78,7 @@
     <script>
 
         var map = L.map('map', {
-            center: [45.461262, -73.549005],
+            center: [45.461262,-73.549005],
             zoom: 11,
         });
        
@@ -102,7 +102,8 @@
                 "marker-size": "medium",
                 "marker-symbol": "star",
                 "name": "Wheel Club",
-                "description": "Hillbilly night every Monday! Sing karaoke in front of a live band... only catch is, it must be a country song written before 1969. Yeehaw!"
+                "description": "Hillbilly night every Monday! Sing karaoke in front of a live band... only catch is, it must be a country song written before 1969. Yeehaw!",
+                "Size": 2
               },
               "geometry": {
                 "type": "Point",
@@ -118,7 +119,8 @@
         "marker-color": "#00b52e",
         "marker-size": "medium",
         "marker-symbol": "entrance",
-        "Name": "Start Here"
+        "Name": "Start Here",
+        "Size": 2
       },
       "geometry": {
         "type": "Point",
@@ -135,7 +137,8 @@
                 "marker-size": "medium",
                 "marker-symbol": "park",
                 "Name": "Mount Royal",
-                "Description": "Come to Mount Royal on Sundays for Tam Tam * LARPers!"
+                "Description": "Come to Mount Royal on Sundays for Tam Tam * LARPers!",
+                "Size": 2
               },
               "geometry": {
                 "type": "Point",
@@ -152,7 +155,8 @@
                 "marker-size": "medium",
                 "marker-symbol": "cafe",
                 "Name": "Cafe Olympia",
-                "Desciption": "Best coffee in the city!"
+                "Desciption": "Best coffee in the city!",
+                "Size": 2
               },
               "geometry": {
                 "type": "Point",
@@ -161,8 +165,9 @@
                   45.52408916333067
                 ]
               }
-            },
-            {
+            }]}
+           
+            var myFeatures ={
               "type": "Feature",
               "properties": {
                 "stroke": "#a74fff",
@@ -264,8 +269,7 @@
                   ]
                 ]
               }
-            },
-            {
+,          
               "type": "Feature",
               "properties": {
                 "stroke": "#ffff00",
@@ -371,10 +375,29 @@
                 ]
       }
     }
-  ]
-}
+        
 
-        var placesLeaflet = L.geoJson(places).addTo(map).bindPopup("name", "description") ;
+
+//        var placesLeaflet = L.geoJson(places).addTo(map);
+//            console.log(places);
+//            console.log(placesLeaflet)
+            
+        var placesLeaflet = L.geoJson(places, {
+        pointToLayer : function(feature, latlng) {
+            console.log(feature,latlng);
+            return L.circle(latlng, 800);
+        }
+    }).addTo(map);
+//        
+        var myFeatures = L.geoJson(myFeatures).addTo(map);
+        
+//         var placesLeaflet = L.geoJson(places, {
+//        pointToLayer : function(feature, latlng) {
+//            return L.circle(latlng, feature.properties.size);
+//        }
+//    }).addTo(map);
+          
+
         
 //        modify the previous statement to include Leaflet GeoJson options pointToLayer and onEachFeature to:
 //
