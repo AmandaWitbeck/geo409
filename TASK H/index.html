@@ -62,7 +62,7 @@
 
 <body>
     <header>
-        <h1>Fun Filled Day in Montreal</h1>
+        <h1>Fun Day in Montreal</h1>
         <h2>Journée de Plaisir à Montréal</h2>
     </header>
 
@@ -70,8 +70,8 @@
 
     <footer>
         <p>Map authored by Amanda Witbeck</p>
-        <p>Additional information about the data and map goes here.</p>
-        <p>Lorem ipsum 
+        <p>Created for GEO 409/709</p>
+        <p>From dawn to dusk, this map will show you the way to a fun filled day.
         </p>
     </footer>
 
@@ -86,7 +86,7 @@
             attribution: '&copy;2012 Esri & Stamen, Data from OSM and Natural Earth',
             subdomains: '0123',
             minZoom: 4,
-            maxZoom: 12
+            maxZoom: 16
         });
         map.addLayer(tiles);
         
@@ -103,7 +103,7 @@
                 "marker-symbol": "star",
                 "name": "Wheel Club",
                 "description": "Hillbilly night every Monday! Sing karaoke in front of a live band... only catch is, it must be a country song written before 1969. Yeehaw!",
-                "Size": 2
+                "size": 600
               },
               "geometry": {
                 "type": "Point",
@@ -116,11 +116,12 @@
                 {
       "type": "Feature",
       "properties": {
-        "marker-color": "#00b52e",
+        "marker-color": "green",
         "marker-size": "medium",
         "marker-symbol": "entrance",
-        "Name": "Start Here",
-        "Size": 2
+        "name": "Start Here",
+        "description": " ",
+        "size": 600
       },
       "geometry": {
         "type": "Point",
@@ -136,9 +137,9 @@
                 "marker-color": "#a74fff",
                 "marker-size": "medium",
                 "marker-symbol": "park",
-                "Name": "Mount Royal",
-                "Description": "Come to Mount Royal on Sundays for Tam Tam * LARPers!",
-                "Size": 2
+                "name": "Mount Royal",
+                "description": "Come to Mount Royal on Sundays for Tam Tam &amp LARPers!",
+                "size": 600
               },
               "geometry": {
                 "type": "Point",
@@ -154,9 +155,9 @@
                 "marker-color": "#a74fff",
                 "marker-size": "medium",
                 "marker-symbol": "cafe",
-                "Name": "Cafe Olympia",
-                "Desciption": "Best coffee in the city!",
-                "Size": 2
+                "name": "Cafe Olympia",
+                "description": "Best coffee in the city!",
+                "size": 600
               },
               "geometry": {
                 "type": "Point",
@@ -165,18 +166,18 @@
                   45.52408916333067
                 ]
               }
-            }]}
-           
-            var myFeatures ={
+            },
+            
+            {
               "type": "Feature",
               "properties": {
                 "stroke": "#a74fff",
-                "stroke-width": 2,
+                "stroke-width": 4,
                 "stroke-opacity": 1,
-                "fill": "#a74fff",
+                "fill": "blue",
                 "fill-opacity": 0.5,
-                "Name": "Bike Path",
-                "Description": "Great 25 km ride along the water."
+                "name": "Bike Path",
+                "description": "Great 25 km ride along the water."
               },
               "geometry": {
                 "type": "Polygon",
@@ -269,13 +270,15 @@
                   ]
                 ]
               }
-,          
+            },
+                {
               "type": "Feature",
               "properties": {
                 "stroke": "#ffff00",
                 "stroke-width": 3,
                 "stroke-opacity": 1,
-                "Name": "Suggested Route"
+                "name": "Suggested Route",
+                "description": " "
               },
               "geometry": {
                 "type": "LineString",
@@ -374,7 +377,7 @@
                   ]
                 ]
       }
-    }
+    } ]}
         
 
 
@@ -382,14 +385,55 @@
 //            console.log(places);
 //            console.log(placesLeaflet)
             
-        var placesLeaflet = L.geoJson(places, {
+            var pointOptions = {
+              color: "purple",
+    }
+//         var pointOptions = {
+//              color: feature.properties.marker-color,
+//         }
+             
+            var lineOptions = {
+              color: "yellow"  
+    }
+            var polygonOptions = {
+             color: "green"   
+    }    
+            
+//            var placesLeaflet = L.geoJson(places, {
+//        pointToLayer : function(feature, latlng) {
+//            console.log(feature,latlng);
+//            return L.circle(latlng, 800);
+//        }, 
+             
+            var placesLeaflet = L.geoJson(places, {
         pointToLayer : function(feature, latlng) {
-            console.log(feature,latlng);
-            return L.circle(latlng, 800);
+            return L.circle( latlng, feature.properties.size);
+            return L.color (latlng, feature.properties.marker-color)
+        },
+            
+            style : function(feature) {
+            return { dashArray: "5, 10",
+                    opacity: 4,
+                     weight: 2
+                   }   
+            },
+                
+        onEachFeature: function(feature, layer) {
+            if(feature.geometry.type == "Point") {
+                layer.setStyle(pointOptions),
+                layer.bindPopup(feature.properties.name + "<br>" +   feature.properties.description)
+            }
+            if(feature.geometry.type == "LineString") {
+                layer.setStyle(lineOptions),
+                layer.bindPopup(feature.properties.name + "<br>" +   feature.properties.description)
+            }   
+            if(feature.geometry.type == "Polygon") {
+                layer.setStyle(polygonOptions),
+                layer.bindPopup(feature.properties.name + "<br>" +   feature.properties.description)
+            }
         }
     }).addTo(map);
-//        
-        var myFeatures = L.geoJson(myFeatures).addTo(map);
+        
         
 //         var placesLeaflet = L.geoJson(places, {
 //        pointToLayer : function(feature, latlng) {
