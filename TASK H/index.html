@@ -3,7 +3,7 @@
 
 <head>
     <meta charset=utf-8 />
-    <title>Geo409 Task H Starter</title>
+    <title>Task H</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
@@ -62,24 +62,24 @@
 
 <body>
     <header>
-        <h1>Map Title</h1>
-        <h2>Map Subtitle</h2>
+        <h1>Fun Filled Day in Montreal</h1>
+        <h2>Journée de Plaisir à Montréal</h2>
     </header>
 
     <div id='map'></div>
 
     <footer>
-        <p>Map authored by YOUR NAME</p>
+        <p>Map authored by Amanda Witbeck</p>
         <p>Additional information about the data and map goes here.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna magna, maximus nec laoreet sit amet, dictum ultricies nibh. Ut id auctor lacus. Nam a dolor et justo luctus luctus. Duis a elit eget risus dictum vehicula id eu elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed sed enim nisl. Vestibulum commodo imperdiet lacus, sed facilisis erat placerat sit amet. Nulla consequat malesuada neque eget aliquet. Integer non convallis nisl, gravida ultrices ex. Fusce nec vestibulum elit. Sed elementum lectus ipsum, vulputate elementum ex laoreet a. Aenean eu ex varius, varius felis vitae, efficitur nulla. Quisque pretium laoreet ante, in sodales dui vehicula at. Mauris eu sem sapien.
+        <p>Lorem ipsum 
         </p>
     </footer>
 
     <script>
 
         var map = L.map('map', {
-            center: [38.96,-85.36],
-            zoom: 8,
+            center: [45.461262, -73.549005],
+            zoom: 11,
         });
        
         var tiles = L.tileLayer('http://a{s}.acetate.geoiq.com/tiles/acetate-hillshading/{z}/{x}/{y}.png', {
@@ -92,7 +92,287 @@
         
         // Begin writing/modifying code for Task H here
         
+        var places = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "marker-color": "#a74fff",
+        "marker-size": "medium",
+        "marker-symbol": "star",
+        "name": "Wheel Club",
+        "description": "Hillbilly night every Monday! Sing karaoke in front of a live band... only catch is, it must be a country song written before 1969. Yeehaw!"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.62895488739014,
+          45.463652351325734
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "marker-color": "#a74fff",
+        "marker-size": "medium",
+        "marker-symbol": "park",
+        "Name": "Mount Royal",
+        "Description": "Come to Mount Royal on Sundays for Tam Tam * LARPers!"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.58814239501953,
+          45.50667774019704
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "marker-color": "#a74fff",
+        "marker-size": "medium",
+        "marker-symbol": "cafe",
+        "Name": "Cafe Olympia",
+        "Desciption": "Best coffee in the city!"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.60054492950438,
+          45.52408916333067
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "stroke": "#a74fff",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "fill": "#a74fff",
+        "fill-opacity": 0.5,
+        "Name": "Bike Path",
+        "Description": "Great 25 km ride along the water."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -73.54934692382812,
+              45.47602175475856
+            ],
+            [
+              -73.54488372802734,
+              45.4733735463996
+            ],
+            [
+              -73.53904724121092,
+              45.47192901666075
+            ],
+            [
+              -73.49990844726561,
+              45.468558303283565
+            ],
+            [
+              -73.49750518798828,
+              45.43267179295816
+            ],
+            [
+              -73.49784851074219,
+              45.42833496400944
+            ],
+            [
+              -73.50265502929688,
+              45.42062422307843
+            ],
+            [
+              -73.51020812988281,
+              45.4143584705806
+            ],
+            [
+              -73.51776123046875,
+              45.40953818785395
+            ],
+            [
+              -73.53046417236328,
+              45.40616374516014
+            ],
+            [
+              -73.58505249023438,
+              45.405681665462005
+            ],
+            [
+              -73.58436584472656,
+              45.41170736599208
+            ],
+            [
+              -73.53080749511717,
+              45.41146635031298
+            ],
+            [
+              -73.52497100830078,
+              45.413635454398545
+            ],
+            [
+              -73.51604461669922,
+              45.4174914337382
+            ],
+            [
+              -73.51020812988281,
+              45.42279297541518
+            ],
+            [
+              -73.50574493408203,
+              45.4295396721436
+            ],
+            [
+              -73.5040283203125,
+              45.435803739956725
+            ],
+            [
+              -73.50849151611328,
+              45.46615052745412
+            ],
+            [
+              -73.5531234741211,
+              45.47072521359533
+            ],
+            [
+              -73.54934692382812,
+              45.47602175475856
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "stroke": "#ffff00",
+        "stroke-width": 3,
+        "stroke-opacity": 1,
+        "Name": "Suggested Route"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -73.5919189453125,
+            45.407850991705544
+          ],
+          [
+            -73.54625701904297,
+            45.40905613695408
+          ],
+          [
+            -73.52943420410156,
+            45.40929716291826
+          ],
+          [
+            -73.5146713256836,
+            45.4143584705806
+          ],
+          [
+            -73.50093841552734,
+            45.43050342013797
+          ],
+          [
+            -73.50299835205078,
+            45.46783598133375
+          ],
+          [
+            -73.54522705078125,
+            45.47144749852001
+          ],
+          [
+            -73.54900360107422,
+            45.4733735463996
+          ],
+          [
+            -73.55827331542969,
+            45.473855048084765
+          ],
+          [
+            -73.5757827758789,
+            45.48276208721776
+          ],
+          [
+            -73.57852935791016,
+            45.48107707969552
+          ],
+          [
+            -73.58745574951172,
+            45.49287107405929
+          ],
+          [
+            -73.58711242675781,
+            45.495999678501214
+          ],
+          [
+            -73.5812759399414,
+            45.50730933674183
+          ],
+          [
+            -73.58642578125,
+            45.50730933674183
+          ],
+          [
+            -73.58779907226562,
+            45.517173353494314
+          ],
+          [
+            -73.6032485961914,
+            45.52294660989206
+          ],
+          [
+            -73.60015869140625,
+            45.5253519585557
+          ],
+          [
+            -73.60565185546875,
+            45.52799772330074
+          ],
+          [
+            -73.64032745361327,
+            45.48950161335789
+          ],
+          [
+            -73.62281799316406,
+            45.480595639718636
+          ],
+          [
+            -73.6190414428711,
+            45.478669838672374
+          ],
+          [
+            -73.62899780273438,
+            45.46470581258951
+          ]
+        ]
+      }
+    }
+  ]
+}
 
+        var placesLeaflet = L.geoJson(places).addTo(map);
+        
+//        modify the previous statement to include Leaflet GeoJson options pointToLayer and onEachFeature to:
+//
+//a. convert the default markers/points to small Leaflet Circle objects (choose an appropriately small radius given the map scale). If you included a size variable in step three you can use it to dynamically size the circles.
+//
+//b. provide the circles with a distinct style.
+//
+//c. provide the polygon with a distinct style.
+//
+//d. provide the polyline with a distinct style.
+//
+//e. bind popups to the the circles and polygon containing the name and description you defined in step 3.
+//
+//f. defines a style option that universally applies a path option to the stroke of the features so that they are dashed and have a width of 10 pixels.
           
     </script>
     
