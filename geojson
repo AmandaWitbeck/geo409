@@ -1,0 +1,56 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "marker-color": "#a74fff",
+        "marker-size": "medium",
+        "marker-symbol": "star",
+        "name": "Wheel Club",
+        "description": "Hillbilly night every Monday! Sing karaoke in front of a live band... only catch is, it must be a country song written before 1969. Yeehaw!"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.62895488739014,
+          45.463652351325734
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "marker-color": "#a74fff",
+        "marker-size": "medium",
+        "marker-symbol": "park",
+        "Name": "Mount Royal",
+        "Description": "Come to Mount Royal on Sundays for Tam Tam * LARPers!"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.58814239501953,
+          45.50667774019704
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "marker-color": "#a74fff",
+        "marker-size": "medium",
+        "marker-symbol": "cafe",
+        "Name": "Cafe Olympia",
+        "Desciption": "Best coffee in the city!"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.60054492950438,
+          45.52408916333067
+        ]
+      }
+    }
+  ]
+}
