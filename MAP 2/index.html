@@ -89,11 +89,11 @@
 			return b.properties.capacity_mw - a.properties.capacity_mw;
 		});
         
-         plants.features.sort(function(x,z) {
-			return z.properties.capacity_mw - x.properties.capacity_mw;
-		});
+//         plants.features.sort(function(x,z) {
+//			return z.properties.capacity_mw - x.properties.capacity_mw;
+//		});
         
-        var cityCoords = [38.0297, -84.4947],
+        var cityCoords = [38.0297, -84.4947]
         
         var coalData = L.geoJson(plants, {
             pointToLayer: function(features, latlng) {
@@ -104,13 +104,12 @@
                     weight: 1,
                     radius: getRadius(features.properties.capacity)
                 })
-            }
             },
             
                 filter: function(features, layer) {          
-    plants.features.sort(function(a,b) {
-			return b.properties.capacity_mw - a.properties.capacity_mw;
-		});
+//    plants.features.sort(function(a,b) {
+//			return b.properties.capacity_mw - a.properties.capacity_mw;
+//		});
                     
         var plantCoords = L.latLng([features.geometry.coordinates[1], features.geometry.coordinates[0]]);
 
@@ -130,7 +129,7 @@
          var props = features.properties;
          var content = "<b>"+props.plant_name+"</b><br>"+
                     props.capacity.toLocaleString()+" MW<br><b>"+
-                    "<b>"+"This plant is "+(features.properties.dist).toLocaleString() +" km"+" from Lexington, KY.</b><br>";
+                    "<b>"+"This plant is "+(features.properties.dist/1000).toLocaleString() +" km"+" from Lexington, KY.</b><br>";
                 
           var source = props.source;
                 for(var fuel in source) {
