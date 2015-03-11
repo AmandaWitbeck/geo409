@@ -3,7 +3,7 @@
 
 <head>
     <meta charset=utf-8 />
-    <title>Module 12 Lab Practice Template</title>
+    <title>ASW Module 12 Lab Practice Template</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
@@ -62,28 +62,56 @@
     <div id='map'></div>
 
     <footer>
-        <p>Map authored by YOUR NAME</p>
+        <p>Map authored by Amanda Witbeck</p>
         <p>Additional information about the data and map goes here.</p>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna magna, maximus nec laoreet sit amet, dictum ultricies nibh. Ut id auctor lacus. Nam a dolor et justo luctus luctus. Duis a elit eget risus dictum vehicula id eu elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed sed enim nisl. Vestibulum commodo imperdiet lacus, sed facilisis erat placerat sit amet. Nulla consequat malesuada neque eget aliquet. Integer non convallis nisl, gravida ultrices ex. Fusce nec vestibulum elit. Sed elementum lectus ipsum, vulputate elementum ex laoreet a. Aenean eu ex varius, varius felis vitae, efficitur nulla. Quisque pretium laoreet ante, in sodales dui vehicula at. Mauris eu sem sapien.
         </p>
     </footer>
-
+    <script src="power-plants.js"></script>
     <script>
         var options = {
-            center: [55.653,30.608],
-            zoom: 5
+            center: [38.0608, -97.9297],
+            zoom: 3
         }
         var map = L.map('map', options);
-        var tiles = L.tileLayer('http://a{s}.acetate.geoiq.com/tiles/acetate-hillshading/{z}/{x}/{y}.png', {
-            attribution: '&copy;2012 Esri & Stamen, Data from OSM and Natural Earth',
-            subdomains: '0123',
-            minZoom: 2,
-            maxZoom: 18
-        });
+        
+        var tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
+	       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+	       subdomains: 'abcd',
+	       minZoom: 0,
+	       maxZoom: 18
+});
         map.addLayer(tiles);
         
         // Begin writing your practice code here
         
+       var hydroLayer =  L.geoJson(plants, {
+        pointToLayer: function(feature,latlng) {
+            return L.circleMarker(latlng, {
+                color: '#1f78b4',
+                fillColor: '#1f78b4',
+                weight: 1,
+                stroke: 1,
+                fillOpacity: .8,
+                radius: getRadius(feature.properties.fuel_source["Hydro"])
+            });
+        },
+        filter: function(feature) {
+            if(feature.properties.fuel_source["Hydro"]) {
+                return feature;
+            }
+        } 
+    }).addTo(map);
+        
+    hydroLayer.setStyle({
+        color: '#a5c9e2',
+        fillColor: '#a5c9e2'
+    });
+
+    function getRadius(val) {
+        var radius = Math.sqrt(val/Math.PI);
+        return radius * .8;   
+    }
 
     </script>
     
