@@ -179,7 +179,7 @@
                     stroke: true,
                     fill: true  
               });  
-               layer.bindPopup(type.properties.);
+//               layer.bindPopup(type.properties.);
             } 
         });
     });
@@ -256,8 +256,7 @@
                     stroke: true,
                     fill: true  
               });  
-               layer.bindPopup("I am <b>"+distance.toLocaleString()+ 
-                               "km</b><br> from the click point.");
+                layer.bindPopup(props.plant_name + props.fuel_source + props.capacity_mw.toLocaleString()+"This plant is "+distance.toLocaleString()+"km from the click point.");
             } 
         });
     });
@@ -275,8 +274,11 @@
                     stroke: true,
                     fill: true  
               });  
-               layer.bindPopup("I am <b>"+distance.toLocaleString()+ 
-                               "km</b><br> from the click point.");
+//               layer.bindPopup("I am <b>"+distance.toLocaleString()+ 
+//                               "km</b><br> from the click point.");
+                
+                layer.bindPopup(props.plant_name + props.fuel_source + props.capacity_mw.toLocaleString()+"This plant is "+distance.toLocaleString()+"km from the click point.");
+                
             } 
         });
     });

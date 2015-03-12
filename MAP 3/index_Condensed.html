@@ -91,7 +91,8 @@
 
         var layerInfo = {
             hydroLayer: {source:"Hydro", color:'#1f78b4'}, 
-            windLayer: {source:"Wind", color:'#a6cee3'}
+            windLayer: {source:"Wind", color:'#a6cee3'},
+            coalLayer: {source: "Coal", color: 'red'}
         }
         var geoJsonLayers = {};
 
@@ -122,6 +123,7 @@
 
         var sourcesLabels = {
             "Hydro": geoJsonLayers.hydroLayer,
+            "Coal": geoJsonLayers.coalLayer,
             "Wind": geoJsonLayers.windLayer
         }
 
@@ -141,12 +143,29 @@
                layer.setStyle({
                     stroke: true,
                     fill: true  
-               });  
+               }); 
+                
+   map.on('dblclick', function(e) {
+        hydroLayer.eachLayer(function(layer) {
+            var distance = e.latlng.distanceTo(layer.getLatLng())/1000;
+
+            if(distance > 200) {
+                layer.setStyle({
+                    stroke: false,
+                    fill: false
+                });  
+            } else {
+               layer.setStyle({
+                    stroke: true,
+                    fill: true  
+               }); 
+                
                layer.bindPopup("I am <b>"+distance.toLocaleString()+ 
                                "km</b><br> from the click point.");
             } 
         });
     });
+                
     </script>
     
 </body>
