@@ -55,25 +55,27 @@
 
 <body>
     <header>
-        <h1>Map Title</h1>
-        <h2>Map Subtitle</h2>
+        <h1> US Electric Power Generation</h1>
+        <h2>Coal | Hydro | Wind</h2>
     </header>
 
     <div id='map'></div>
 
     <footer>
         <p>Map authored by Amanda Witbeck</p>
-        <p>Additional information about the data and map goes here.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna magna, maximus nec laoreet sit amet, dictum ultricies nibh. Ut id auctor lacus. Nam a dolor et justo luctus luctus. Duis a elit eget risus dictum vehicula id eu elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed sed enim nisl. Vestibulum commodo imperdiet lacus, sed facilisis erat placerat sit amet. Nulla consequat malesuada neque eget aliquet. Integer non convallis nisl, gravida ultrices ex. Fusce nec vestibulum elit. Sed elementum lectus ipsum, vulputate elementum ex laoreet a. Aenean eu ex varius, varius felis vitae, efficitur nulla. Quisque pretium laoreet ante, in sodales dui vehicula at. Mauris eu sem sapien.
+        <p>Map Created for GEO 409 Spring 2015</p>
+        <p>You've been hired to make an interactive web map of US electric power generation. Your client would like users to be able to compare the power produced from 3 distinct fuel sources of your choosing. At least one of these sources should be either Coal, Natural Gas, or Nuclear. The other two are up to you. The client has also given you the follow requirements the map should mee
         </p>
     </footer>
     <script src="power-plants.js"></script>
     <script>
         var options = {
             center: [38.0608, -97.9297],
-            zoom: 3
+            zoom: 4
         }
-        var map = L.map('map', options);
+        var map = L.map('map',options);
+        
+        map.doubleClickZoom.disable();
         
         var tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
 	       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
@@ -109,6 +111,24 @@
              fillOpacity: .8
         }
 
+        var coalLayer = L.geoJson(plants, {
+            pointToLayer: function(feature,latlng) {
+                return L.circleMarker(latlng, commonStyles);
+            },
+            filter: function(feature) {
+                if(feature.properties.fuel_source["Coal"]) {
+                    return feature;
+                }
+            },
+            style: function(feature) {
+                return {
+                    color: 'red',
+                    fillColor: 'red',
+                    radius: getRadius(feature.properties.fuel_source["Coal"])
+                } 
+            } 
+        }).addTo(map);   
+           
         var hydroLayer = L.geoJson(plants, {
             pointToLayer: function(feature,latlng) {
                 return L.circleMarker(latlng, commonStyles);
@@ -145,12 +165,68 @@
             }
         }).addTo(map);
         
-    
+        map.on('click', function(e) {
+        coalLayer.eachLayer(function(layer) {
+            var distance = e.latlng.distanceTo(layer.getLatLng())/1000; // distance as km
+
+            if(distance > 500) {
+                layer.setStyle({
+                    stroke: false,
+                    fill: false
+                });  
+            } else {
+               layer.setStyle({
+                    stroke: true,
+                    fill: true  
+              });  
+               layer.bindPopup(type.properties.);
+            } 
+        });
+    });
+                  map.on('dblclick', function(e) {
+        coalLayer.eachLayer(function(layer) {
+            var distance = e.latlng.distanceTo(layer.getLatLng())/1000; // distance as km
+
+            if(distance > 200) {
+                layer.setStyle({
+                    stroke: false,
+                    fill: false
+                });  
+            } else {
+               layer.setStyle({
+                    stroke: true,
+                    fill: true  
+              });  
+               layer.bindPopup("I am <b>"+distance.toLocaleString()+ 
+                               "km</b><br> from the click point.");
+            } 
+        });
+    });
        map.on('click', function(e) {
         hydroLayer.eachLayer(function(layer) {
             var distance = e.latlng.distanceTo(layer.getLatLng())/1000; // distance as km
 
             if(distance > 500) {
+                layer.setStyle({
+                    stroke: false,
+                    fill: false
+                });  
+            } else {
+               layer.setStyle({
+                    stroke: true,
+                    fill: true  
+              });  
+               layer.bindPopup("I am <b>"+distance.toLocaleString()+ 
+                               "km</b><br> from the click point.");
+            } 
+        });
+    });
+        
+             map.on('dblclick', function(e) {
+        hydroLayer.eachLayer(function(layer) {
+            var distance = e.latlng.distanceTo(layer.getLatLng())/1000; // distance as km
+
+            if(distance > 200) {
                 layer.setStyle({
                     stroke: false,
                     fill: false
@@ -185,14 +261,33 @@
             } 
         });
     });
+                  map.on('dblclick', function(e) {
+        windLayer.eachLayer(function(layer) {
+            var distance = e.latlng.distanceTo(layer.getLatLng())/1000; // distance as km
+
+            if(distance > 200) {
+                layer.setStyle({
+                    stroke: false,
+                    fill: false
+                });  
+            } else {
+               layer.setStyle({
+                    stroke: true,
+                    fill: true  
+              });  
+               layer.bindPopup("I am <b>"+distance.toLocaleString()+ 
+                               "km</b><br> from the click point.");
+            } 
+        });
+    });
         
 //     hydroLayer.eachLayer(function(layer) {
 //    
         
      var sourcesLayers = {
-           "<b style='color:#1f78b4'>Hydro</b>": hydroLayer,
-        "<b style='color:#a6cee3'>Wind</b>": windLayer,
-//        "<b style='color:#ffff99; text-shadow: 0px 0px 1px #333;'>Solar</b>": solarLayer
+         "<b style='color:red'>Coal</b>": coalLayer,
+        "<b style='color:#1f78b4'>Hydro</b>": hydroLayer,
+        "<b style='color:#a6cee3'>Wind</b>": windLayer
     }
 
     L.control.layers(null, sourcesLayers, { collapsed:false }).addTo(map);
