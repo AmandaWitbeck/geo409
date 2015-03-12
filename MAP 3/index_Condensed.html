@@ -82,76 +82,12 @@
 	       maxZoom: 18
 });
         map.addLayer(tiles);
-        
-        // Begin writing your practice code here
-        
-//      So, instead, we recognize where the redundant code is and think of ways to loop through it.
-
-The trick to doing this is to recognize where the values will be different for each one. So, for this example, we see this part remains the same for each:
-
-    var hydroLayer = L.geoJson(plants, {
-        pointToLayer: function(feature,latlng) {
-            return L.circleMarker(latlng, commonStyles);
-        },
-Within the filter option, only the name of the fuel source will change, so in this case we're starting to think about substituting the hard-coded "Hydro" with a variable whose value will change as we loop through the entire strucutre:
-
-    filter: function(feature) {
-        if(feature.properties.fuel_source[<variableName>]) {
-            return feature;
+     
+          var commonStyles = {
+             weight: 1,
+             stroke: 1,
+             fillOpacity: .8
         }
-    },
-Finally, we see the hexidecimal color values for each has been hard-coded, so we'll want to swap those out with variables, as well as the fuel source we're using to pass a value to the getRadius() function.
-
-        style: function(feature) {
-            return {
-                color: <variableName>,
-                fillColor: <variableName>,
-                radius: getRadius(feature.properties.fuel_source[<variableName>])
-            }
-        }
-    }).addTo(map);
-Okay, so we know that instead of repeating that same structure over and over again, we want to loop through it, substituting values for variable names upon each iteration. This is really similar to the simple for loops we've been using.
-
-First, we'll create a JS object to hold the information we want to insert within the code. So for this example, we'll use our anticipated variable name for each Leaflet GeoJson layer as the property name, and then an object of the associated information for each layer. Eventually we'd include all 13 power types but to keep things simple we'll just show it for two.
-
-    var layerInfo = {
-        hydroLayer: {source:"Hydro", color:'#1f78b4'}, 
-        windLayer: {source:"Wind", color:'#a6cee3'}
-    }
-We're going to loop through this object called layerInfo but before we do (and this is a bit tricky to get your head around) we'll create an empty object var geoJsonLayers = {} to hold the variable names for each Leaflet GeoJson layer we'll be creating.
-
-    var layerInfo = {
-        hydroLayer: {source:"Hydro", color:'#1f78b4'}, 
-        windLayer: {source:"Wind", color:'#a6cee3'}
-    }
-
-    var geoJsonLayers = {};
-Now we're ready to construct our looping structure. Because we're looping through a JS object layerInfo, and not an Array, we'll be using the for(var name in object) looping structure. You'll want to console.log(layer, layerInfo[layer]) within this loop to understand how it is accessing the object property names and values. Essentially, with each iteration here, layer will be the property name (i.e., "hydroLayer", "windLayer") and layerInfo[layer] will be accessing the associated Array (i.e., source:"Hydro", color:'#1f78b4')
-
-The following code then achieves the same thing as repeating the structure to create the GeoJson layers:
-
-    for(var layer in layerInfo) {     
-        geoJsonLayers[layer] = L.geoJson(plants, {
-            pointToLayer: function(feature,latlng) {
-                return L.circleMarker(latlng, commonStyles);
-            },
-            filter: function(feature) {
-                if(feature.properties.fuel_source[layerInfo[layer].source]) {
-                    return feature;
-                }
-            },
-            style: function(feature) {
-                return {
-                    color: layerInfo[layer].color,
-                    fillColor: layerInfo[layer].color,
-                    radius: getRadius(feature.properties.fuel_source[layerInfo[layer].source])
-                } 
-            } 
-        }).addTo(map);        
-     }
-Furthermore, we've dynamically created variable names for each GeoJson layer and stored them as property names with the geoJsonLayers object with the geoJsonLayers[layer] = ... statement. Therefore, we can still access those layers (and add them to our Leaflet layer control by writing geoJsonLayers.hydroLayer etc.
-
-The full solution then looks like this:
 
         var layerInfo = {
             hydroLayer: {source:"Hydro", color:'#1f78b4'}, 
@@ -190,7 +126,7 @@ The full solution then looks like this:
         }
 
         L.control.layers(null, sourcesLabels, { collapsed:false }).addTo(map);
-Again, perhaps not immediately evident when only creating two layers, but certainly for many more the payoff in the cleanliness and maintainability of the code will be evident. A similar process could then be used to reduce the redundancy of repeating this code (i.e. how would we swap hydroLayer with each layer variable name?):
+
 
     map.on('click', function(e) {
         hydroLayer.eachLayer(function(layer) {
