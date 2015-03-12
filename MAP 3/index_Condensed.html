@@ -74,6 +74,8 @@
             zoom: 3
         }
         var map = L.map('map', options);
+       
+        map.doubleClickZoom.disable();
         
         var tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
 	       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
@@ -95,6 +97,8 @@
             coalLayer: {source: "Coal", color: 'red'}
         }
         var geoJsonLayers = {};
+         
+        var props = layer.feature.properties;
 
         for(var layer in layerInfo) {     
             geoJsonLayers[layer] = L.geoJson(plants, {
@@ -131,22 +135,27 @@
 
 
     map.on('click', function(e) {
-        hydroLayer.eachLayer(function(layer) {
+        
+        for (var r in geoJsonLayers)}
+        geoJsonLayers[r].eachLayer(function(layer) {
             var distance = e.latlng.distanceTo(layer.getLatLng())/1000;
-
+            
             if(distance > 500) {
                 layer.setStyle({
                     stroke: false,
                     fill: false
-                });  
+                }); 
+            
             } else {
                layer.setStyle({
                     stroke: true,
                     fill: true  
-               }); 
+               });} 
+                
                 
    map.on('dblclick', function(e) {
-        hydroLayer.eachLayer(function(layer) {
+      for (var r in geoJsonLayers)}
+        geoJsonLayers[r].eachLayer(function(layer) {
             var distance = e.latlng.distanceTo(layer.getLatLng())/1000;
 
             if(distance > 200) {
@@ -159,13 +168,23 @@
                     stroke: true,
                     fill: true  
                }); 
-                
                layer.bindPopup("I am <b>"+distance.toLocaleString()+ 
                                "km</b><br> from the click point.");
             } 
         });
     });
-                
+               var sourcesLayers = {
+         "<b style='color:red'>Coal</b>": coalLayer,
+        "<b style='color:#1f78b4'>Hydro</b>": hydroLayer,
+        "<b style='color:#a6cee3'>Wind</b>": windLayer
+    }
+
+    L.control.layers(null, sourcesLayers, { collapsed:false }).addTo(map);
+        
+    function getRadius(val) {
+        var radius = Math.sqrt(val/Math.PI);
+        return radius * .8;   
+    }      
     </script>
     
 </body>

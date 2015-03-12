@@ -3,7 +3,7 @@
 
 <head>
     <meta charset=utf-8 />
-    <title>ASW Module 12 Lab Practice Template</title>
+    <title>ASW Map 3</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
@@ -110,6 +110,7 @@
              stroke: 1,
              fillOpacity: .8
         }
+    
 
         var coalLayer = L.geoJson(plants, {
             pointToLayer: function(feature,latlng) {
@@ -197,8 +198,10 @@
                     stroke: true,
                     fill: true  
               });  
-               layer.bindPopup("I am <b>"+distance.toLocaleString()+ 
-                               "km</b><br> from the click point.");
+              
+                var properties = layer.feature.properties;
+                
+            layer.bindPopup("Coal" + "<br /> " + properties.plant_name + "<br /> " + properties.capacity_mw + "mw" + "<br /> " + "<br /> " +"This plant is "+distance.toLocaleString()+"km from the click point.");
             } 
         });
     });
@@ -216,8 +219,9 @@
                     stroke: true,
                     fill: true  
               });  
-               layer.bindPopup("I am <b>"+distance.toLocaleString()+ 
-                               "km</b><br> from the click point.");
+              var properties = layer.feature.properties;
+                
+                layer.bindPopup("Hydro" + "<br /> " + properties.plant_name + "<br /> " + properties.capacity_mw + "mw" + "<br /> " + "<br /> " +"This plant is "+distance.toLocaleString()+"km from the click point.");
             } 
         });
     });
@@ -244,6 +248,7 @@
         
                map.on('click', function(e) {
         windLayer.eachLayer(function(layer) {
+            
             var distance = e.latlng.distanceTo(layer.getLatLng())/1000; // distance as km
 
             if(distance > 500) {
@@ -256,7 +261,9 @@
                     stroke: true,
                     fill: true  
               });  
-                layer.bindPopup(props.plant_name + props.fuel_source + props.capacity_mw.toLocaleString()+"This plant is "+distance.toLocaleString()+"km from the click point.");
+                var properties = layer.feature.properties;
+                
+                layer.bindPopup("Wind" + "<br /> " + properties.plant_name + "<br /> " + properties.capacity_mw + "mw" + "<br /> " + "<br /> " +"This plant is "+distance.toLocaleString()+"km from the click point.");
             } 
         });
     });
@@ -277,7 +284,7 @@
 //               layer.bindPopup("I am <b>"+distance.toLocaleString()+ 
 //                               "km</b><br> from the click point.");
                 
-                layer.bindPopup(props.plant_name + props.fuel_source + props.capacity_mw.toLocaleString()+"This plant is "+distance.toLocaleString()+"km from the click point.");
+//                layer.bindPopup(properties.fuel_source +"This plant is "+distance.toLocaleString()+"km from the click point.");
                 
             } 
         });
