@@ -56,7 +56,7 @@
 <body>
     <header>
         <h1>Map Title</h1>
-        <h2>Map Subtitle</h2>
+        <h2>DRAFT</h2>
     </header>
 
     <div id='map'></div>
@@ -73,6 +73,7 @@
         
         jQuery("h1").html("Housing Ownership in Kentucky");
         
+        
         var options = {
         center: [37.8, -85.8],
         zoom: 7.4,
@@ -82,6 +83,27 @@
         zoomControl: false
     }
     var map = L.map('map', options);
+        
+        jQuery.getJSON("ky_counties_housing.json", function(data) {
+        // the data loaded from the file is accessible here!
+        console.log(data);
+    });
+        
+         jQuery.getJSON("ky_counties_housing.json", function(data) {
+             L.geoJson(data, {
+         style: function(feature) {
+            return {
+                    color: '#dddddd',
+                    weight: 1,
+                    fillOpacity: 1,
+                    fillColor: '#1f78b4'
+                };
+        }          
+    }).addTo(map);
+    
+    });
+        
+        
 
     </script>
     
