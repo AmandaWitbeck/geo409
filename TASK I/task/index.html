@@ -3,7 +3,7 @@
 
 <head>
     <meta charset=utf-8 />
-    <title>LAB</title>
+    <title>TASK I</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
     <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
@@ -37,7 +37,7 @@
             width: 960px;
             height: 540px;
             margin: 10px auto;
-            background: whitesmoke;
+            background: grey;
             border: 2px solid #dddedf;
         }
         footer {
@@ -81,7 +81,7 @@
 <body>
     <header>
         <h1>Map Title</h1>
-        <h2>DRAFT</h2>
+        <h2></h2>
     </header>
 
     <div id='map'></div>
@@ -96,7 +96,7 @@
         
         // WRITE YOUR CODE JAVASCRIPT CODE HERE
         
-        jQuery("h1").html("Housing Ownership in Kentucky");
+        jQuery("h1").html("Vacant Housing in Kentucky");
         
         var options = {
         center: [37.8, -85.8],
@@ -111,8 +111,9 @@
         
         
         var dataLayer,
-            attribute = "OWNED_MORT",
-            norm = "OWNER";
+            attribute = "VACANT",
+            norm = "TOTAL";
+        
 
         $.getJSON("ky_counties_housing.json", function(data) {
 
@@ -120,14 +121,14 @@
                 style: function(feature) {
                     return {
                         color: '#dddddd',
-                        weight: 1,
+                        weight: 2,
                         fillOpacity: 1,
                         fillColor: '#1f78b4'
                     };
             }          
         }).addTo(map);
             
-        
+
    
         function drawMap() {
 
@@ -137,7 +138,7 @@
             
         }
             
-        
+                
 
     function getClassBreaks() {
 
@@ -147,12 +148,18 @@
         
         var value = layer.feature.properties[attribute]/layer.feature.properties[norm];
             values.push(value);   
+            
+        var props = layer.feature.properties;
+        var content = "County: " +  props["NAME"] + "<br /> " + "Vacant: " + props[attribute]
+                    
+        layer.bindPopup(content); 
         }); 
 
         var breaks = ss.jenks(values, 5);
             console.log(breaks)
         return breaks;
-         
+                   
+    
     } 
             
         var breaks = getClassBreaks();
@@ -191,7 +198,7 @@
             // first append an <h3> tag to the div holding the current attribute 
             // and norm values (i.e., the mapped phenenomena) and begin an
             // un-ordered list (<ul>)
-            div.innerHTML = "<h3>" + attribute + " per " + norm + "</h3><ul>"; 
+            div.innerHTML = "Percentage of " +  attribute + " Houses " + "per " + norm + " Houses" + "</h3><ul>"; 
 
             // for each of our breaks
             for (var i = 0; i < breaks.length-1; i++) {
@@ -220,8 +227,8 @@
     }
             drawLegend(breaks);
             
+            
         });
-        
         
         
     </script>
