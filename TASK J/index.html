@@ -3,7 +3,7 @@
 
 <head>
     <meta charset=utf-8 />
-    <title>TASK I</title>
+    <title>TASK J</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
     <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
@@ -72,6 +72,17 @@
             float: left;
             margin-right: 10px;
         }
+        .info {
+        padding: 6px 8px;
+        font-size: 1em;
+        background: rgba(255,255,255,0.8);
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        border-radius: 5px;
+        text-align: right;   
+        }
+        .info h3 {
+        margin: 0;   
+        }
 
         /* ADD YOUR ADDITIONAL STYLE RULES HERE */
         
@@ -83,10 +94,30 @@
         <h1>Map Title</h1>
         <h2></h2>
     </header>
+   
+    <div id='ui-controls'>
+        <label>Choose a data attribute:<br>
+                <select name="vacant">
+            <option value="VACANT" selected>Vacancy rate</option>
+            <option value="VACANT_FOR">Vacant units for rent</option>
+            <option value="VACANT_REN">Unoccupied vacant units for rent</option>
+            <option value="VACANT_FO2">Vacant units for sale</option> 
+            <option value="VACANT_SOL">Unoccupied vacant units sold</option>
+            <option value="VACANT_SEA">Vacant units used seasonally/recreationally</option>
+            <option value="VACANT_MIG">Vacant units used by migratory workers</option>
+            <option value="VACANT_OTH">Other vacant units</option>
+            </select>
+        </label>
+    </div>
+    
+    
 
     <div id='map'></div>
+    
+    
 
     <footer>
+        
         <p>Map authored by Amanda Witbeck</p>
         <p>Created for GEO 409/709 Spring 2015</p>
         <p>These data were obtained through American Fact Finder(http://factfinder.census.gov/); 2010 Census, SF1</p>
@@ -115,11 +146,11 @@
             norm = "TOTAL";
         
 
-        $.getJSON("ky_counties_housing.json", function(data) {
+    $.getJSON("ky_counties_housing.json", function(data) {
 
-            dataLayer = L.geoJson(data, {
+        dataLayer = L.geoJson(data, {
                 style: function(feature) {
-                    return {
+                return {
                         color: '#dddddd',
                         weight: 2,
                         fillOpacity: 1,
@@ -127,7 +158,12 @@
                     };
             }          
         }).addTo(map);
-            
+
+        ui();
+        drawLegend();
+        drawMap();
+
+    });
 
    
         function drawMap() {
@@ -135,10 +171,37 @@
            var breaks = getClassBreaks();
             
            var legend = drawLegend();
-            
         }
-            
-                
+        
+                 
+        function drawInfo() {
+
+        var info = L.control({position: 'topright'});
+
+        info.onAdd = function(map) {
+
+            var div = L.DomUtil.create('div', 'info');
+
+            return div;  
+
+        }
+        info.addTo(map);
+         $(".info").hide();
+    }
+        
+        function updateInfo(layer) {
+
+        var props = layer.feature.properties;
+
+        var html = "<h3>"+props['NAME']+" County</h3>"+
+                    "total # occupied units: <b>"+ props["OCCUPIED"]+"</b><br>"+
+                    "# owned with mortgage or loan: <b>"+ props["OWNED_MORT"]+"</b><br>"+
+                    "# owned free and clear: <b>"+ props["OWNED_FREE"]+"</b><br>"+
+                    "# occupied by renters: <b>"+ props["RENTER"]+"</b>"
+
+        $(".info").html(html);
+    }
+        
 
     function getClassBreaks() {
 
@@ -148,27 +211,31 @@
         
         var value = layer.feature.properties[attribute]/layer.feature.properties[norm];
             values.push(value);   
-            
-        var props = layer.feature.properties;
-        var content = "County: " +  props["NAME"] + "<br /> " + "Vacant: " + props[attribute]
-                    
-        layer.bindPopup(content); 
-        }); 
+        });
 
         var breaks = ss.jenks(values, 5);
-            console.log(breaks)
-        return breaks;
-                   
+//            console.log(breaks)
+        return breaks;           
     
     } 
             
         var breaks = getClassBreaks();
+        
+                    
 
     dataLayer.eachLayer(function(layer) {
+       
+            var props = layer.feature.properties;
+       
+           var content = "County: " +  props["NAME"] + "<br /> " + "Vacant: " + props[attribute]
+                    
+            layer.bindPopup(content); 
+        
+                       
         layer.setStyle({
             fillColor: getColor(layer.feature.properties[attribute]/layer.feature.properties[norm], breaks)
         });
-    });
+ 
 
         function getColor(d, breaks) {
         if(d <= breaks[1]) {
@@ -183,53 +250,59 @@
             return '#045a8d'
         }
     }
+    }
             
-        function drawLegend(breaks){
+    function drawLegend() {
 
-        // create a new Leaflet control object, and position it top left
         var legend = L.control({position: 'topleft'});
 
-        // when the legend is added to the map
-        legend.onAdd = function (map) {
+        legend.onAdd = function(map) {
 
-            // create a new HTML <div> element and give it a class name of "legend"
             var div = L.DomUtil.create('div', 'legend');
 
-            // first append an <h3> tag to the div holding the current attribute 
-            // and norm values (i.e., the mapped phenenomena) and begin an
-            // un-ordered list (<ul>)
-            div.innerHTML = "Percentage of " +  attribute + " Houses " + "per " + norm + " Houses" + "</h3><ul>"; 
-
-            // for each of our breaks
-            for (var i = 0; i < breaks.length-1; i++) {
-                // determine the color associated with each break value,
-                // including the lower range value
-                var color = getColor(breaks[i + 1], breaks);
-
-                // concatenate a list item (<li>) to the div containing 
-                // an <i> tag styled with the color and include the range values
-                // of that particular classification group
-                div.innerHTML +=
-                    '<li><span style="background:' + color + '"></span> ' +
-                    (breaks[i]*100).toLocaleString() + ' &mdash; ' + 
-                    (breaks[i + 1]*100).toLocaleString() + '</li>';
-            }
-
-            // close the un-ordered list
-            div.innerHTML += "</ul>"
-
-            // return the populated div to be added to the map
             return div;
+
         };
 
-        // add the legend to the map
         legend.addTo(map);
     }
-            drawLegend(breaks);
-            
-            
-        });
         
+            function updateLegend(breaks) {
+
+        var legend = $('.legend').html("<h3>" + attribute + "</h3><ul>"); 
+
+        for (var i = 0; i < breaks.length-1; i++) {
+            var color = getColor(breaks[i + 1], breaks);
+            legend.append('<li><span style="background:' + color + '"></span> ' +
+                (breaks[i]*100).toLocaleString() + ' &mdash; ' + 
+                (breaks[i + 1]*100).toLocaleString() + '</li>');
+        }
+        legend.append("</ul>");
+    }
+
+         
+        function ui() {
+
+            var dataView = L.control({position: 'topleft'});
+
+            dataView.onAdd = function(map) {
+
+            var controls = L.DomUtil.get('ui-controls');
+            return controls;
+        }
+
+        dataView.addTo(map);
+    }    
+               
+        $('select[name="vacant"]').change(function() { 
+            attribute = $(this).val();
+                if (attribute == "VACANT") norm = "TOTAL";
+                 else norm = "VACANT";
+                                
+            drawMap();
+        }); 
+     
+    
         
     </script>
     

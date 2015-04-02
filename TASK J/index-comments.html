@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <title>Task I solution</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+    <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <script src="simple_statistics.js"></script>
+
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: whitesmoke;
+            font-family: Lato, sans-serif;
+            color: #0D0000;
+        }
+        header {
+            padding: 6px 10%;
+        }
+        h1 {
+            display: inline-block;
+            margin-right: 20px;
+            color: #001323;
+        }
+        h2 {
+            display: inline-block;
+            color: #001323;
+        }
+        #map {
+            width: 960px;
+            height: 540px;
+            margin: 10px auto;
+            background: 90 90 90;
+            border: 2px solid #dddedf;
+        }
+        footer1 {
+            padding: 6px 10%;
+            width: 80%;
+        }
+        footer2 {
+            padding: 6px 10%;
+            width: 80%;
+        }
+        p {
+            font-size: 1em;
+            color: #001323;
+        }
+       
+        .legend {
+            padding: 6px 8px;
+            font-size: 1em;
+            background: rgba(255,255,255,0.8);
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            border-radius: 5px;
+        }
+        .legend h3 {
+            font-size: 1.1em;
+            font-weight: normal;
+            color: #001323;
+            margin: 0;
+        }
+        .legend h4 {
+            font-size: 1em;
+            font-weight: normal;
+            color: 30 30 30;
+            margin: 0;
+        }
+        .legend li {
+            list-style-type: none;
+            height: 22px;
+        }
+        .legend span {
+            width: 20px;
+            height: 20px;
+            float: left;
+            margin-right: 10px;
+        }
+        .leaflet-popup-content {
+            max-width: 160px;   
+        }
+        .info {
+            padding: 6px 8px;
+            font-size: 1em;
+            background: rgba(255,255,255,0.8);
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            border-radius: 5px;
+        }
+        
+        .info h3 {
+            margin:0;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Vacant Housing in Kentucky</h1>
+        <h2>2010</h2>
+    </header>
+    
+    <div id='ui-controls'>     
+<!--        content of drop down menu list options-->
+     <label>Choose a data attribute :<br>
+        <select name="vacant">
+            <option value="VACANT" selected>Vacancy rate</option>
+            <option value="VACANT_FOR">Vacant units for rent</option>
+            <option value="VACANT_REN">Unoccupied vacant units for rent</option>
+            <option value="VACANT_FO2">Vacant units for sale</option> 
+            <option value="VACANT_SOL">Unoccupied vacant units sold</option>
+            <option value="VACANT_SEA">Vacant units used seasonally/recreationally</option>
+            <option value="VACANT_MIG">Vacant units used by migratory workers</option>
+            <option value="VACANT_OTH">Other vacant units</option>
+        </select>
+        </label>
+    </div>
+
+    <div id='map'></div>
+    
+    <footer1>
+         <p>Note: All values are a percentage rate</p>
+    </footer1>
+
+    <footer2>
+       <p>Map authored by Amanda Witbeck | Created for GEO 409/709 Spring 2015</p>
+        <p>These data were obtained through American Fact Finder(http://factfinder.census.gov/); 2010 Census, SF1</p>
+    </footer2>
+
+    <script>
+        // set initial options for the map
+        var options = {
+            center: [37.8, -85.8],
+            zoom: 7.4,
+            minZoom: 7.4,
+            maxZoom: 7.4,
+            dragging: false,
+            zoomControl: false
+        }
+        // create a new Leaflet map, passing map options, and assign to variable
+        var map = L.map('map', options);
+        
+         // labels related to attribute content
+        var labels = {
+            "VACANT": "Vacancy rate",
+            "VACANT_FOR": "Vacant units for rent",
+            "VACANT_REN": "Unoccupied vacant units for rent",
+            "VACANT_FO2": "Vacant units for sale",
+            "VACANT_SOL": "Unoccupied vacant units sold",
+            "VACANT_SEA": "Vacant units used seasonally/recreationally",
+            "VACANT_MIG": "Vacant units used by migratory workers",
+            "VACANT_OTH": "Other vacant units"   
+        };
+        
+        
+        // global default style for map features
+        var defaultStyle = {
+            color: '#dddddd',
+            weight: 2,
+            fillOpacity: 1
+        };
+        
+        // global style for highlighted features
+        var highlightStyle = {
+            weight: 5,
+            color: 'yellow',
+            opacity: 0.95
+        };
+        
+        var dataLayer,  // declare global variable for map units
+            attribute = "VACANT",  // assign initial variable to store data attribute 
+            norm = "TOTAL";  // asign initial variable to store normalizing data attribute
+        
+        // QJuery AJAX request to load external GEoJSON file
+       $.getJSON("ky_counties_housing.json", function(data) {
+            
+            //assign leaflet geoJSON layer to global variable dataLayer
+            dataLayer = L.geoJson(data, {
+                 style: function(feature) { // style each GeoJSON feature
+                    return defaultStyle; // use default style
+                },
+                onEachFeature: function(feature, layer) { // bind event listeners and behaviors to layers
+                    layer.on({
+                        mouseover: highlightFeature, // on mouseover, call highlightFeature function
+                        mouseout: resetFeature // on mouseout, call resetFeature function
+                    });
+                }
+            }).addTo(map);// add the Leaflet GeoJson layer to the map
+            
+            drawLegend(); // call function to draw the legend
+            ui(); // call function to call attribute selection drop-down
+            drawInfo(); // call function to draw the info box on mouseover
+            drawMap();  // call function to draw the map
+              
+        });
+        
+        function drawMap() {
+            
+            // call function to determine class breaks and assign return value to variable
+            var breaks = getClassBreaks();
+
+            // loop through each layer of the GeoJson layer
+            dataLayer.eachLayer(function(layer) {
+                
+                // create shorthand variable to access layer properties
+                var props = layer.feature.properties;
+                
+                // change the fill color of the layer using the layer's attribute values
+                layer.setStyle({
+                    fillColor: getColor(props[attribute]/
+                                        props[norm], breaks)
+                });
+                
+                   //on mouseover, update the html content of the info box
+                layer.on('mouseover', function() {
+                    updateInfo(this);
+                });
+                
+            });
+            
+            //on mouseover, show the info box
+            dataLayer.on('mouseover', function() {
+                $(".info").show();
+                
+            });
+            // on mouseout, hide the info box
+            dataLayer.on('mouseout', function() {
+                $(".info").hide();    
+            });
+            
+            
+            // call the function to draw the legend, sending the breaks array as arugment
+           updateLegend(breaks);
+        }
+        
+                // highlights a feature on mouseover
+        function highlightFeature(e) {
+            var layer = e.target;
+            layer.setStyle(highlightStyle);
+            }
+        
+        
+        // resets the styling of a given feature on mouseout
+        function resetFeature(e) {
+            e.target.setStyle(defaultStyle);
+        }
+        
+        function getClassBreaks() {
+            
+            // create empty array to hold range of data values
+            var values = [];
+            
+            // loop through each layer
+            dataLayer.eachLayer(function(layer) {
+                
+                // calculate the normalized value of the layer's data attribute
+                var value = layer.feature.properties[attribute]/layer.feature.properties[norm];
+                
+                // push that value into the array
+                values.push(value);   
+            }); 
+            
+            // use simple statistics to create a 5-class array from the given array of data values
+            var breaks = ss.jenks(values, 5);
+            
+            //return that array to its caller
+            return breaks;
+            
+        }   
+        
+        function getColor(d, breaks) {
+            // function accepts a single normalized data attribute value 
+            // and uses a series of conditional statements to determine which 
+            // which color value to return to return to the function caller
+            
+            if(d <= breaks[1]) {
+                return '#f1eef6';
+            } else if(d <= breaks[2]) {
+                return '#bdc9e1';
+            } else if(d <= breaks[3]) {
+                return '#74a9cf';
+            } else if(d <= breaks[4]) {
+                return '#2b8cbe';
+            } else if(d <= breaks[5]) {
+                return '#045a8d';
+            }
+        }
+        
+      
+        // draw legend
+        function drawLegend() {
+            //sets legend position to topleft
+            var legend = L.control({position: 'topleft'});
+            legend.onAdd = function (map) {
+                // a <div> of the 'legend' class
+                var div = L.DomUtil.create('div', 'legend');
+                return div;    
+            };
+            
+            // add the legend div to the map.
+            legend.addTo(map);
+        }
+        
+        // update the legend
+        function updateLegend(breaks) {
+            
+            var legend = $('.legend').html("<h3>" + labels[attribute] + "</h3><ul>");
+            
+            // loop through breaks.length-1 number of times
+            for (var i = 0; i < breaks.length-1; i++) {
+                // assign a color based on the breaks upper bound
+                var color = getColor(breaks[i + 1], breaks);
+                legend.append('<li><span style="background:' + color + '"></span> ' +
+                    (breaks[i]*100).toFixed(2) + ' &mdash; ' + 
+                    (breaks[i + 1]*100).toFixed(2) + '</li>');
+            }
+            legend.append("</ul>");
+        }
+        
+        function drawInfo() {
+            // create a leaflet control in the top right of the screen
+            var info = L.control({position: 'topright'});
+                
+            // when info control is added
+            info.onAdd = function(map) {
+                // create a <div> of class 'info'
+                var div = L.DomUtil.create('div', 'info');
+                return div;  
+            }
+            // add <div> to map
+            info.addTo(map);
+            // hidden until mouseover action
+            $(".info").hide();
+        }
+
+             function updateInfo(layer) {
+            //insert content into div element
+            var props = layer.feature.properties;
+            
+            //create info box HTML content, establishing a header
+             var html = "<h3>"+props['NAME']+" County</h3>"+
+                    "Vacancy rate: <b>"+ props["VACANT"]+"</b><br>"+
+                    "Unoccupied vacant units for rent: <b>"+ props["VACANT_FOR"]+"</b><br>"+
+                    "Vacant units for sale: <b>"+ props["VACANT_FO2"]+"</b><br>"+
+                    "Unoccupied vacant units sold: <b>"+ props["VACANT_SOL"]+"</b>"
+                    "Vacant units used seasonally/recreationally: <b>"+ props["VACANT_SEA"]+"</b>"
+                    "Vacant units used by migratory workers <b>"+ props["VACANT_MIG"]+"</b>"
+                    "Other vacant units <b>"+ props["VACANT_OTH"]+"</b>"
+
+        
+             
+             // insert the html content
+            $(".info").html(html);
+               
+        }
+         
+        function ui() {
+
+            var dataView = L.control({position: 'topleft'});
+
+            dataView.onAdd = function(map) {
+
+            var controls = L.DomUtil.get('ui-controls');
+            return controls;
+        }
+        //add drop down list to map
+
+        dataView.addTo(map);
+    }    
+               
+        $('select[name="vacant"]').change(function() { 
+            attribute = $(this).val();
+                if (attribute == "VACANT") norm = "TOTAL";
+                 else norm = "VACANT";
+        //when attributr is selected in drop down menu change attribute value                        
+            drawMap();
+        }); 
+
+    </script>
+    
+</body>
+
+</html>
