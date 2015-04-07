@@ -9,6 +9,7 @@
     <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
     <script src="simple_statistics.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.0/papaparse.min.js"></script>
 
     
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
@@ -91,18 +92,48 @@
                 
         $.getJSON("us-states.json", function(states) {
 
-            // did the data file successfully load?
+        Papa.parse('states-unemployment.csv', {
+            download: true,
+            header: true,
+            complete: function(data) {
 
-        })
-        .fail(function() {
-            // the data file failed to load
-            console.log("Ruh roh! An error has occurred." );
-        });      
+                // data is accessible to us here
+                console.log(data);
+
+                // note that states is also accessible here!
+
+            }
+        }); // end of Papa.parse() 
+
+    });  // end of $.getJSON()
+        
+//        .fail(function() {
+//            // the data file failed to load
+//            console.log("Ruh roh! An error has occurred." );
+//        });      
 
 
         // function to process/bind data
+            function processData(states, data) {
+                
+         $.getJSON("us-states.json", function(states) {
+
+        Papa.parse('states-unemployment.csv', {
+            download: true,
+            header: true,
+            complete: function(data) {
+
+                processData(states, data);
+
+                    }
+                });
+
+            });
+            }
 
         // function to draw the map
+        function drawMap (states) {
+            dataLayer = L.geoJson (states)
         
         // function to update the map
         
@@ -117,7 +148,7 @@
         // function to create the range slider
 //        function createSliderUI() {
 //        }
-
+        }
     </script>
     
 </body>
