@@ -8,7 +8,6 @@
 
     <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
-    <script src= "us-states.json"></script>
 
     
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
@@ -58,16 +57,16 @@
     <h1>US Unemployment Rates: 2001 - 2013</h1>
     <div id='map'></div>
     
-    <script src= "us-states.json"></script>
+    <script src= "us-states.js"></script>
     
     <script>
         
         //global Variables
         var options = {
-        center: [37.8, -85.8],
-        zoom: 7.4,
-        minZoom: 7.4,
-        maxZoom: 7.4,
+        center: [39.0997, -94.5783],
+        zoom: 0,
+        minZoom: 5,
+        maxZoom: 20,
         dragging: true,
         zoomControl: true
         }
@@ -79,15 +78,17 @@
              
         // load map tiles and add to map
         
-        var tiles = L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.{ext}',        {
-	   attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a       href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-	       subdomains: 'abcd',
-            minZoom: 0,
-            maxZoom: 20,
-            ext: 'png'
+        var HERE_carnavDayGrey = L.tileLayer('http://{s}.{base}.maps.cit.api.here.com/maptile/2.1/maptile/{mapID}/carnav.day.grey/{z}/{x}/{y}/256/png8?app_id={app_id}&app_code={app_code}', {
+            attribution: 'Map &copy; 1987-2014 <a href="http://developer.here.com">HERE</a>',
+            subdomains: '1234',
+            mapID: 'newest',
+            app_id: 'Y8m9dK2brESDPGJPdrvs',
+            app_code: 'dq2MYIvjAotR8tHvY8Q_Dg',
+            base: 'base',
+            minZoom: 3,
+            maxZoom: 20
         });
-        
-        map.addLayer(tiles);
+        map.addLayer(HERE_carnavDayGrey);
                 
         $.getJSON("us-states.json", function(states) {
 
