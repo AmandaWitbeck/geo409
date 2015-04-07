@@ -55,8 +55,10 @@
 </head>
 
 <body>
-    <h1>Kentucky Employment Rates by County</h1>
+    <h1>US Unemployment Rates: 2001 - 2013</h1>
     <div id='map'></div>
+    
+    <script src= "us-states.json"></script>
     
     <script>
         
@@ -72,7 +74,9 @@
     
         var map = L.map('map',options);
         
-        
+        var dataLayer,
+            attribute = "2001";
+             
         // load map tiles and add to map
         
         var tiles = L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.{ext}',        {
@@ -111,6 +115,8 @@
         // function to update the legend
 
         // function to create the range slider
+//        function createSliderUI() {
+//        }
 
     </script>
     
