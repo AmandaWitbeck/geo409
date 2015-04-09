@@ -1,13 +1,11 @@
 TO DO
-Pull #KentuckyKicksAss
-Clean Up Data
-	-Match tables to "TEMPLATE"
-	-Split up Tables
-	-Amanda:
+Pull #KentuckyKicksAss ANNA
+Clean Up Data ANNA
+	-Match tables to "TEMPLATE" ANNA
+	-Split up Tables ANNA
 
-	-Annna:
-Aggregate Data
-	Summarize tables in ArcMap
+Aggregate Data AMANDA
+	Summarize tables in ArcMap AMANDA
 		-State
 		-County
 		-Hex
