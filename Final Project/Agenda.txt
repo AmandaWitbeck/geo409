@@ -1,0 +1,13 @@
+TO DO
+Pull #KentuckyKicksAss
+Clean Up Data
+	-Match tables to "TEMPLATE"
+	-Split up Tables
+	-Amanda:
+
+	-Annna:
+Aggregate Data
+	Summarize tables in ArcMap
+		-State
+		-County
+		-Hex
